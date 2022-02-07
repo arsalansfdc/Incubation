@@ -1,0 +1,35 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global"  controller="AssetsController">   
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="actId" type="String" default="{!v.recordId}" access="global" />  
+    <aura:attribute name="noRelatedAssets" type="Boolean" default="false"/>
+    <aura:attribute name="assetList" type="List" />           
+    <lightning:card title="Assets Details">
+        <aura:if isTrue="{!v.noRelatedAssets}">
+            <div class="slds-align_absolute-center">
+            No Related Assets
+            </div>
+        </aura:if>
+            <div class="slds-m-around_x-large">       
+                <lightning:accordion>
+                    <aura:iteration items="{!v.assetList}" var="row">
+                        <lightning:accordionSection name="{!row.assetObject.Name}" label="{!row.assetObject.Name}">
+                            Asset Name  :  {!row.assetObject.Name} <br/>
+                            Product Name:  {!row.assetObject.Product2.Name} <br/>
+                            Product Code:  {!row.assetObject.Product2.ProductCode} <br/>
+                            Product Family:  {!row.assetObject.Product2.Family}
+                            <lightning:accordion >
+                                <aura:iteration items="{!row.childAssetList}" var="child">
+                                    <lightning:accordionSection name="{!child.Name}" label="{!child.Name}">
+                                        Asset Name  : {!child.Name} <br/>
+                                        Product Name: {!child.Product2.Name} <br/>
+                                        Product Code: {!child.Product2.ProductCode} <br/>
+                                        Product Family: {!child.Product2.Family} <br/>
+                                    </lightning:accordionSection>
+                                </aura:iteration>
+                            </lightning:accordion>
+                        </lightning:accordionSection>
+                    </aura:iteration>
+                </lightning:accordion>       
+        </div>
+    </lightning:card>
+</aura:component>
